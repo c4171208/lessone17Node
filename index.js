@@ -4,6 +4,8 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 
 import cakeRouter from "./routes/cake.js"
+import userRouter from "./routes/user.js"
+
 import { middleWare } from "./middleWares/middleWare.js";
 config();
 
@@ -25,6 +27,8 @@ app.use(express.json());
 app.use(morgan("common"))//מדפיס כל בקשה שמגיעה לשרת בפורמט מסוים לטרמינל
 
 app.use("/api/cake",cakeRouter)
+app.use("/api/user",userRouter)
+
 app.use(middleWare)
 
 
