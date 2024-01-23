@@ -1,10 +1,10 @@
 import express  from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
-
+import mongoose from "mongoose";
 
 import cakeRouter from "./routes/cake.js"
-import mongoose from "mongoose";
+import { middleWare } from "./middleWares/middleWare.js";
 config();
 
 const app=express();
@@ -24,16 +24,8 @@ mongoose.connect(`${mongoDB}/${process.env.DB_NAME||"kondeturia"}`).then(suc=>{
 app.use(express.json());
 app.use(morgan("common"))//מדפיס כל בקשה שמגיעה לשרת בפורמט מסוים לטרמינל
 
-// app.use((err,req,res,next)=>
-// {
-//   console.error(err.stack)
-//   let stat=res.stat?res.stat:500;
-//   res.status(stat).send(err.message||"error in server")  
-// });
-
-
 app.use("/api/cake",cakeRouter)
-
+app.use(middleWare)
 
 
 
