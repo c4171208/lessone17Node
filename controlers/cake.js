@@ -10,9 +10,8 @@ export const getAllCakes=async (req, res) => {
     // })
     //3.
     let {search}=req.query;
-    //זה משבש לי ?????
-    // let perPage=req.query.perPage||40;
-    // let page=req.query.page||1;
+    let perPage=req.query.perPage||40;
+    let page=req.query.page||1;
     let reg=new RegExp(`${search}$`)//תסתיים ב:
 
     try {
@@ -23,14 +22,13 @@ export const getAllCakes=async (req, res) => {
 
 
         let allCakes = await CakeModel.find(filter)
-            //זה משבש לי ?????
-        // .skip(page*(perPage-1))
-        // .limit(perPage)
+         .skip((page-1)*(perPage))
+         .limit(perPage)
 
-        res.json(allCakes)
+         res.json(allCakes)
     }
     catch (err) {
-        res.status(400).send(`error1${err.message}`)
+        return res.status(400).send(`error1${err.message}`)
     }}
 
     export const getCakeById=async (req, res) => {
@@ -43,7 +41,7 @@ export const getAllCakes=async (req, res) => {
             res.json(cake)
         }
         catch (err) {
-            res.status(400).send(`error2${err.message}`)
+            return res.status(400).send(`error2${err.message}`)
     
         }
     }
@@ -56,10 +54,10 @@ export const getAllCakes=async (req, res) => {
             let cake = await CakeModel.findByIdAndDelete(id)
             if (!cake)
                 return res.status(404).send(" למחיקה מצטערים אין עוגה עם קוד כזה")
-            res.json(cake)
+            return res.json(cake)
         }
         catch (err) {
-            res.status(400).send(`erro3r${err.message}`)
+            return res.status(400).send(`erro3r${err.message}`)
     
         }
     }
@@ -67,17 +65,17 @@ export const getAllCakes=async (req, res) => {
     export const postCake=async (req, res) => {
         let { name, price, baker, ExpiryDate, isMilk } = req.body;
         if (!name || !price)
-            res.status(404).send(`חובה לשלוח שם ומחיר`)
+            return res.status(404).send(`חובה לשלוח שם ומחיר`)
         try {
             let sameCake = await CakeModel.find({ name, price });
             if (sameCake.length > 0)
-                res.status(409).send(`כבר קיים כזה מאפה עם שם ומחיר כזה`)
+                return res.status(409).send(`כבר קיים כזה מאפה עם שם ומחיר כזה`)
             let newCake = new CakeModel({ name, price, baker, ExpiryDate, isMilk });
             await newCake.save();
             res.json(newCake)
         }
         catch (err) {
-            res.status(400).send(`error4${err.message}`)
+            return res.status(400).send(`error4${err.message}`)
         }
     
     }
@@ -101,10 +99,10 @@ export const getAllCakes=async (req, res) => {
     
              await CakeModel.findByIdAndUpdate(id, req.body)
             let cake= await CakeModel.findById(id)
-            res.json(cake)
+            return res.json(cake)
         }
         catch (err) {
-            res.status(400).send(`erro5r${err.message}`)
+            return res.status(400).send(`erro5r${err.message}`)
     
         }
     

@@ -23,6 +23,15 @@ mongoose.connect(`${mongoDB}/${process.env.DB_NAME||"kondeturia"}`).then(suc=>{
 
 app.use(express.json());
 app.use(morgan("common"))//מדפיס כל בקשה שמגיעה לשרת בפורמט מסוים לטרמינל
+
+// app.use((err,req,res,next)=>
+// {
+//   console.error(err.stack)
+//   let stat=res.stat?res.stat:500;
+//   res.status(stat).send(err.message||"error in server")  
+// });
+
+
 app.use("/api/cake",cakeRouter)
 
 
