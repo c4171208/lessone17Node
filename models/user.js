@@ -14,7 +14,8 @@ let userSchema=mongoose.Schema({
     name:String,
     email:String,
     password:String,
-    pastries:[minCake]
+    pastries:[minCake],
+    role:{type:String,default:"user"}
 
 })
 export const User=mongoose.model("User",userSchema)

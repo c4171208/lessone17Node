@@ -1,17 +1,15 @@
 import express from "express";
 import * as cakeControlers from "../controlers/cake.js"
+import { auth, authAdmin } from "../middleWares/auth.js";
 const router = express.Router();
 
-router.get("/",cakeControlers.getAllCakes )
+router.get("/",auth,cakeControlers.getAllCakes )
 
+router.get("/:id",auth,cakeControlers.getCakeById  )
 
+router.delete("/:id",auth, cakeControlers.deleteCakeById)
 
-
-router.get("/:id",cakeControlers.getCakeById  )
-
-router.delete("/:id", cakeControlers.deleteCakeById)
-
-router.post("/",cakeControlers.postCake )
+router.post("/",auth,cakeControlers.postCake )
 
 router.put("/:id",cakeControlers.putCakeById)
 
